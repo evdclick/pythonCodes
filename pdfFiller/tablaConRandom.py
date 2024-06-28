@@ -48,27 +48,42 @@ for arcPDF in soloPDFs:
  for i in range(1,7):
   bex3.append('EE'+str(i))
 
+ r=[]
+ for i in range(193):
+ 
+  if i>11 and i<74:
+   p1 = 0
+   for j in range(200):
+    p1=round(random.uniform(0.04,0.1),2)
+   r.append([True, p1])
+  elif i>95 and i<153:
+   p1 = 0
+   for j in range(250):
+    p1 = round(random.uniform(0.07,0.18),2)
+   r.append([True, p1])
+  elif i>112 and i<117:
+   p1 = 0
+   for j in range(300):
+    p1 = round(random.uniform(0.07,0.18),2)   
+   r.append([True, p1])
+  else:
+   r.append([False, 0])
+
+ mol=0
+
 #https://pypdf2.readthedocs.io/en/3.x/user/forms.html
 #En este punto voy a enumerar todas las celdas disponibles para poder cargarle los números aleatorios
 #que recomiendas usar según la solicitud.
 #fieldEnumerator=0
  for key, value in celdasParaLlenar.items():
   #print (key,value)
-  if key in bex1 and value!=None: #Estar seguro que la celda contiene algún número
-   fol = round(random.uniform(0.04,0.1),2)
+  if r[mol][0]==True and value!=None: #Estar seguro que la celda contiene algún número
+   fol = r[mol][1]
    fol = str(fol)
    fol = fol.replace('.', ',')
    writer.update_page_form_field_values(writer.pages[0], {key: fol})   #Procedo a llenar con números aleatorios entre 0.04 y 0.1
-  elif key in bex2 and value!=None:
-   fol = round(random.uniform(0.07,0.18),2)
-   fol = str(fol)
-   fol = fol.replace('.', ',')
-   writer.update_page_form_field_values(writer.pages[0], {key: fol})   #Procedo a llenar con números aleatorios entre 0.07 y 0.18
-  elif key in bex3 and value!=None:
-   fol = round(random.uniform(0.07,0.18),2)
-   fol = str(fol)
-   fol = fol.replace('.', ',')
-   writer.update_page_form_field_values(writer.pages[0], {key: fol})   #Procedo a llenar con números aleatorios entre 0.07 y 0.18
+  mol+=1
+
  #reader.close()
  os.remove(arcPDF) 
 # write "output" to PyPDF2-output.pdf
